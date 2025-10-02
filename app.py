@@ -45,7 +45,7 @@ class App(Tk):
 
         # fill controlFrame
         # Algorithm Selector
-        self.values = ["red", "green", "blue"]
+        self.values = solver.algorithms
         self.var = StringVar(value=self.values[0])
         self.optionMenu = OptionMenu(self.controlFrame, self.var, *self.values)
         
@@ -78,8 +78,11 @@ class App(Tk):
             for column in range(size):
                 puzzle_row.append(self.cellEntries[row][column].get())
             puzzle.append(puzzle_row)
-        print(puzzle)
-        self.solutionResult.config(text="Puzzle Solved")
+        solution = solver.solve(puzzle, self.var.get())
+        for row in range(size):
+            for column in range(size):
+                self.cellEntries[row][column].config(text=solution[0][row][column])
+        self.solutionResult.config(text=solution[1])
 
 
 if __name__ == '__main__':
